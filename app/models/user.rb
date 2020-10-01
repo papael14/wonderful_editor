@@ -31,6 +31,9 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 class User < ActiveRecord::Base
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :email, uniquness: true
+  validates :password, presence: true
   extend Devise::Models
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
