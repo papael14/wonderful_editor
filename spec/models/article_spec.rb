@@ -20,5 +20,34 @@
 #
 require "rails_helper"
 RSpec.describe Article, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @user = create(:user)
+  end
+
+  context "title が入力されているとき" do
+    it "ユーザーが作られる" do
+      article = build(:article)
+      expect(article).to be_valid
+    end
+  end
+
+  context "title が空白のとき" do
+    it "エラーとなる" do
+      article = build(:article, title: nil)
+      expect(article).to be_invalid
+      expect(article.errors.details[:title][0][:error]).to eq :blank
+    end
+  end
+  # context "status が入力されているとき" do
+  #   it "ユーザーが作られる" do
+  #   end
+  # end
+
+  context "status が空白のとき" do
+    it "エラーとなる" do
+      article = build(:article, status: nil)
+      expect(article).to be_invalid
+      expect(article.errors.details[:status][0][:error]).to eq :blank
+    end
+  end
 end
