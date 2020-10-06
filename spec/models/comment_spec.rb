@@ -21,5 +21,23 @@
 #
 require "rails_helper"
 RSpec.describe Comment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @user = create(:user)
+    @article = create(:article)
+  end
+
+  xcontext "body が入力されているとき" do
+    let(:comment) {build(:comment)}
+    it "user が作成される" do
+      expect(comment).to be_valid
+    end
+  end
+
+  context "body が空白のとき" do
+    it "エラーとなる" do
+      comment = build(:comment, body: nil)
+      expect(comment).to be_invalid
+      expect(comment.errors.details[:body][0][:error]).to eq :blank
+    end
+  end
 end
