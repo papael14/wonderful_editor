@@ -22,10 +22,10 @@
 FactoryBot.define do
   factory :comment do
     body { Faker::Job.field }
-    sequence(:user_id) { |n| "#{n}" }
-    sequence(:article_id) { |n| "#{n}" }
-    sequence(:id) { |n| "#{n}" }
-#    user_id { 1 }
-#    article_id { 1 }
+    sequence(:user_id) {|n| n.to_s }
+    sequence(:article_id) {|n| n.to_s }
+    sequence(:id) {|n| n.to_s }
+    #    user_id { 1 }
+    #    article_id { 1 }
   end
 end

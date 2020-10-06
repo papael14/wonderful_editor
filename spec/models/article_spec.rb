@@ -23,12 +23,14 @@ RSpec.describe Article, type: :model do
   before do
     @user = create(:user)
   end
+
   context "title が入力されているとき" do
     it "ユーザーが作られる" do
       article = build(:article)
       expect(article).to be_valid
     end
   end
+
   context "title が空白のとき" do
     it "エラーとなる" do
       article = build(:article, title: nil)
@@ -40,6 +42,7 @@ RSpec.describe Article, type: :model do
   #   it "ユーザーが作られる" do
   #   end
   # end
+
   context "status が空白のとき" do
     it "エラーとなる" do
       article = build(:article, status: nil)
