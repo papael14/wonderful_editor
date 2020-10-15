@@ -6,7 +6,6 @@ RSpec.describe User, type: :model do
   context "必要な情報が揃っている場合" do
     let(:user) {build(:user)}
     it "ユーザーが作られる" do
-      # be_valid：バリデーションエラーが発生していないこと
       expect(user).to be_valid
     end
   end
@@ -15,7 +14,6 @@ RSpec.describe User, type: :model do
     let(:user) {build(:user, name: nil)}
     it "エラーとなる" do
       expect(user).to be_invalid
-      # expect(user.errors.details[:name][0][:error]).to eq :blank
       expect(subject).to eq :blank
     end
   end
@@ -25,7 +23,6 @@ RSpec.describe User, type: :model do
     it "エラーとなる" do
       create(:user, name: "test")
       expect(user).to be_invalid
-      # expect(user.errors.details[:name][0][:error]).to eq :taken
       expect(subject).to eq :taken
     end
   end

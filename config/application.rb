@@ -41,6 +41,7 @@ module WonderfulEditor
                        request_specs: true
     end
     # Don't generate system test files.
-    config.api_only = true
+    config.api_only =
+    config.middleware.use ActionDispatch::Flash
   end
 end
