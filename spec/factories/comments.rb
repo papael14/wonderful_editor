@@ -25,7 +25,5 @@ FactoryBot.define do
     sequence(:user_id) {|n| n.to_s }
     sequence(:article_id) {|n| n.to_s }
     sequence(:id) {|n| n.to_s }
-    #    user_id { 1 }
-    #    article_id { 1 }
   end
 end
