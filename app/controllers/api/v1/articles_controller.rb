@@ -14,18 +14,18 @@ module Api::V1
     end
 
     def show
-      #render json: @article
+      # render json: @article
     end
 
     def create
       @article = Article.new(
-       title: params[:title],
-       body: params[:body],
-       status: params[:status],
-       user_id: params[:user_id]
+        title: params[:title],
+        body: params[:body],
+        status: params[:status],
+        user_id: params[:user_id],
       )
       @article.save!
-#      @article = Article.new(article_params)
+      #      @article = Article.new(article_params)
 
       # if @article.save
       #   render :show, status: :created, location: @article
@@ -47,14 +47,15 @@ module Api::V1
     end
 
     private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_article
-      @article = Article.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def article_params
-      params.require(:article).permit(:title, :body, :status, :user_id)
-    end
+      # Use callbacks to share common setup or constraints between actions.
+      def set_article
+        @article = Article.find(params[:id])
+      end
+
+      # Only allow a list of trusted parameters through.
+      def article_params
+        params.require(:article).permit(:title, :body, :status, :user_id)
+      end
   end
 end
