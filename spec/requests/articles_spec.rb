@@ -1,10 +1,13 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Articles", type: :request do
   describe "GET /api/v1/articles" do
     subject { get api_v1_articles_path }
+
     before { create_list(:user, user_count) }
+
     before { create_list(:article, article_count) }
+
     let(:user_count) {3}
     let(:article_count) {3}
 
@@ -16,7 +19,7 @@ RSpec.describe "Articles", type: :request do
       expect(res.values[0].length).to eq 3
       expect(res.values[0][0]["attributes"]).to include "title"
       expect(res.values[0][0]["attributes"]).to include "updated-at"
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
   end
 end
