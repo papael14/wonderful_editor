@@ -60,10 +60,17 @@
 #   end
 # end
 module Api::V1
-  class ArticlesController < BaseApiController # base_api_controller を継承
+  class ArticlesController < BaseApiController
     def index
       articles = Article.order(updated_at: :desc)
       render json: articles, each_serializer: Api::V1::ArticlePreviewSerializer
+    end
+
+    def show
+      article = Article.find(params[:id])
+      each_serializer
+      # render json: article, each_serializer: Api::V1::ArticleSerializer
+      # each_serializerでSerializerを指定しなくても同じ階層のArticleSerializerから取得する
     end
   end
 end
