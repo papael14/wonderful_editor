@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  subject {user.errors.details[:name][0][:error]}
+  subject { user.errors.details[:name][0][:error]}
 
   context "必要な情報が揃っている場合" do
     let(:user) {build(:user)}

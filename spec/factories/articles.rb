@@ -20,11 +20,11 @@
 #
 # FactoryBot.define do
 #   factory :article do
-    # title { Faker::Job.title }
-    # body { Faker::Job.field }
-    # status { Faker::Job.seniority }
-    # sequence(:user_id) {|n| n.to_s }
-    # sequence(:id) {|n| n.to_s }
+# title { Faker::Job.title }
+# body { Faker::Job.field }
+# status { Faker::Job.seniority }
+# sequence(:user_id) {|n| n.to_s }
+# sequence(:id) {|n| n.to_s }
 #   end
 # end
 
