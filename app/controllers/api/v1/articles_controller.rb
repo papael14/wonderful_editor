@@ -68,9 +68,26 @@ module Api::V1
 
     def show
       article = Article.find(params[:id])
-      each_serializer
+      render json: article
       # render json: article, each_serializer: Api::V1::ArticleSerializer
       # each_serializerでSerializerを指定しなくても同じ階層のArticleSerializerから取得する
+    end
+
+    def create
+      article = Article.new(
+        title: params[:title],
+        body: params[:body],
+        user_id: params[:user_id],
+      )
+      article.save!
+      article = Article.find(Article.last.id)
+      render json: article
+
+      # if article.save
+      #   render :show, status: :created, location: article
+      # else
+      #   render json: article.errors, status: :unprocessable_entity
+      # end
     end
   end
 end
