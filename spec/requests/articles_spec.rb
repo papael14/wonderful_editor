@@ -11,13 +11,12 @@ require "rails_helper"
 
 #     fit "記事一覧が取得できる" do
 #       subject
-
 #       res = JSON.parse(response.body)
 #       binding.pry
 #       expect(response).to have_http_status(:ok)
-#       expect(res.values[0].length).to eq 3
-#       expect(res.values[0][0]["attributes"]).to include "title"
-#       expect(res.values[0][0]["attributes"]).to include "updated-at"
+#       # expect(res.values[0].length).to eq 3
+#       # expect(res.values[0][0]["attributes"]).to include "title"
+#       # expect(res.values[0][0]["attributes"]).to include "updated-at"
 #       expect(response).to have_http_status(:ok)
 #     end
 #   end
@@ -69,6 +68,44 @@ RSpec.describe "Api::V1::Articles", type: :request do
 
       it "記事が見つからない" do
         expect { subject }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
+  describe "POST /articles" do
+    subject { post(api_v1_articles_path, params: params) }
+    before { create_list(:user, user_count) }
+    before { create_list(:article, article_count) }
+    let(:user_count) {1}
+    let(:article_count) {1}
+    before do
+      @baseapicontroller = Api::V1::BaseApiController.new
+      @baseapicontroller = @baseapicontroller.current_user
+    end
+
+    context "適切なパラメーターを送信したとき" do
+      let!(:params) do
+        {
+          title: Faker::Lorem.word,
+          body: Faker::Lorem.sentence,
+          user_id: @baseapicontroller.id,
+          User: @baseapicontroller
+        }
+      end
+      it "記事を作成できる" do
+        expect { subject }.to change { Article.count }.by(1)
+        res = JSON.parse(response.body)
+        expect(res["title"]).to eq params[:title]
+        expect(res["body"]).to eq params[:body]
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context "不適切なパラメーターを送信したとき" do
+      let!(:params) { attributes_for(:article)}
+
+      fit "エラーになる" do
+        expect{ subject }.to raise_error ActiveRecord::RecordInvalid
       end
     end
   end
