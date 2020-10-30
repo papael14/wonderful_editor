@@ -72,41 +72,62 @@ RSpec.describe "Api::V1::Articles", type: :request do
     end
   end
 
+  # describe "POST /articles" do
+  #   subject { post(api_v1_articles_path, params: params) }
+
+  #   before { create_list(:user, user_count) }
+
+  #   before { create_list(:article, article_count) }
+
+  #   let(:user_count) {1}
+  #   let(:article_count) {1}
+  #   before do
+  #     @baseapicontroller = Api::V1::BaseApiController.new
+  #     @baseapicontroller = @baseapicontroller.current_user
+  #   end
+
+  #   context "適切なパラメーターを送信したとき" do
+  #     let!(:params) do
+  #       {
+  #         title: Faker::Lorem.word,
+  #         body: Faker::Lorem.sentence,
+  #         user_id: @baseapicontroller.id,
+  #         User: @baseapicontroller,
+  #       }
+  #     end
+  #     fit "記事を作成できる" do
+  #       expect { subject }.to change { Article.count }.by(1)
+  #       res = JSON.parse(response.body)
+  #       expect(res["title"]).to eq params[:title]
+  #       expect(res["body"]).to eq params[:body]
+  #       expect(response).to have_http_status(:ok)
+  #     end
+  #   end
+
+  #   context "不適切なパラメーターを送信したとき" do
+  #     let!(:params) { attributes_for(:article)}
+
+  #     fit "エラーになる" do
+  #       expect { subject }.to raise_error ActiveRecord::RecordInvalid
+  #     end
+  #   end
+  # end
+
   describe "POST /articles" do
     subject { post(api_v1_articles_path, params: params) }
-    before { create_list(:user, user_count) }
-    before { create_list(:article, article_count) }
-    let(:user_count) {1}
-    let(:article_count) {1}
-    before do
-      @baseapicontroller = Api::V1::BaseApiController.new
-      @baseapicontroller = @baseapicontroller.current_user
-    end
 
-    context "適切なパラメーターを送信したとき" do
-      let!(:params) do
-        {
-          title: Faker::Lorem.word,
-          body: Faker::Lorem.sentence,
-          user_id: @baseapicontroller.id,
-          User: @baseapicontroller
-        }
-      end
-      it "記事を作成できる" do
-        expect { subject }.to change { Article.count }.by(1)
-        res = JSON.parse(response.body)
-        expect(res["title"]).to eq params[:title]
-        expect(res["body"]).to eq params[:body]
-        expect(response).to have_http_status(200)
-      end
-    end
+    let(:params) { { article: attributes_for(:article) } }
+    let(:current_user) { create(:user) }
 
-    context "不適切なパラメーターを送信したとき" do
-      let!(:params) { attributes_for(:article)}
+    # stub
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
 
-      fit "エラーになる" do
-        expect{ subject }.to raise_error ActiveRecord::RecordInvalid
-      end
+    fit "記事のレコードが作成できる" do
+      expect { subject }.to change { Article.where(user_id: current_user.id).count }.by(1)
+      res = JSON.parse(response.body)
+      expect(res["title"]).to eq params[:article][:title]
+      expect(res["body"]).to eq params[:article][:body]
+      expect(response).to have_http_status(:ok)
     end
   end
 end
