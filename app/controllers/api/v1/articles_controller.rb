@@ -73,21 +73,27 @@ module Api::V1
       # each_serializerでSerializerを指定しなくても同じ階層のArticleSerializerから取得する
     end
 
-    def create
-      article = Article.new(
-        title: params[:title],
-        body: params[:body],
-        user_id: params[:user_id],
-      )
-      article.save!
-      article = Article.find(Article.last.id)
-      render json: article
+    # def create
+    #   article = Article.new(
+    #     title: params[:title],
+    #     body: params[:body],
+    #     user_id: params[:user_id],
+    #   )
+    #   article.save!
+    #   article = Article.find(Article.last.id)
+    #   render json: article
 
-      # if article.save
-      #   render :show, status: :created, location: article
-      # else
-      #   render json: article.errors, status: :unprocessable_entity
-      # end
+    # end
+
+    def create
+      article = current_user.articles.create!(article_params)
+      render json: article
     end
+
+    private
+
+      def article_params
+        params.require(:article).permit(:title, :body)
+      end
   end
 end
