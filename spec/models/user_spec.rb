@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
   end
 
   context "name が空白のとき" do
-    let(:user) {build(:user, name: nil)}
+    let(:user) { build(:user, name: nil) }
     it "エラーとなる" do
       expect(user).to be_invalid
       expect(subject).to eq :blank
