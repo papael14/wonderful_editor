@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
   end
 
   context "name が登録済のとき" do
-    let(:user) {build(:user, name: "test")}
+    let(:user) { build(:user, name: "test") }
     it "エラーとなる" do
       create(:user, name: "test")
       expect(user).to be_invalid
@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
   end
 
   context "email が登録済のとき" do
-    let(:user) {build(:user, email: "test@ex.com")}
+    let(:user) { build(:user, email: "test@ex.com")}
     it "エラーとなる" do
       create(:user, email: "test@ex.com")
       expect(user).to be_invalid

@@ -101,13 +101,13 @@ module Api::V1
     def destroy
       article = current_user.articles.find(params[:id])
       article.destroy!
-      render json: article
+      # render json: article
     end
 
     private
 
       def set_article
-        # @article = current_user.find(params[:id])
+        # @article = current_user.articles.find(params[:id])
       end
 
       def article_params
