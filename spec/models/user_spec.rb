@@ -4,14 +4,14 @@ RSpec.describe User, type: :model do
   subject { user.errors.details[:name][0][:error] }
 
   context "必要な情報が揃っている場合" do
-    let(:user) { build(:user)}
+    let(:user) { build(:user) }
     it "ユーザーが作られる" do
       expect(user).to be_valid
     end
   end
 
   context "name が空白のとき" do
-    let(:user) {build(:user, name: nil)}
+    let(:user) { build(:user, name: nil) }
     it "エラーとなる" do
       expect(user).to be_invalid
       expect(subject).to eq :blank
