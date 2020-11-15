@@ -20,7 +20,7 @@
 #
 FactoryBot.define do
   factory :article_like do
-    sequence(:user_id) {|n| n.to_s }
-    sequence(:article_id) {|n| n.to_s }
+    user
+    article
   end
 end

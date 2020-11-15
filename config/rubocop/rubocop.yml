@@ -7,6 +7,7 @@ AllCops:
     - "vendor/**/*" # rubocop config/default.yml
     - "db/schema.rb"
     - "db/migrate/*.rb"
+    - "lib/tasks/auto_annotate_models.rake"
 
 #################### Layout ################################
 
