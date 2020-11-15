@@ -71,21 +71,7 @@ module Api::V1
     def show
       # article = Article.find(params[:id])
       render json: article
-      # render json: article, each_serializer: Api::V1::ArticleSerializer
-      # each_serializerでSerializerを指定しなくても同じ階層のArticleSerializerから取得する
     end
-
-    # def create
-    #   article = Article.new(
-    #     title: params[:title],
-    #     body: params[:body],
-    #     user_id: params[:user_id],
-    #   )
-    #   article.save!
-    #   article = Article.find(Article.last.id)
-    #   render json: article
-
-    # end
 
     def create
       article = current_user.articles.create!(article_params)
@@ -101,13 +87,13 @@ module Api::V1
     def destroy
       article = current_user.articles.find(params[:id])
       article.destroy!
-      render json: article
+      # render json: article
     end
 
     private
 
       def set_article
-        # @article = current_user.find(params[:id])
+        # @article = current_user.articles.find(params[:id])
       end
 
       def article_params
@@ -115,3 +101,25 @@ module Api::V1
       end
   end
 end
+
+# 作成中の試行錯誤メモ
+
+# def show
+#   # article = Article.find(params[:id])
+#   render json: article
+#   # render json: article, each_serializer: Api::V1::ArticleSerializer
+#   # each_serializerでSerializerを指定しなくても同じ階層のArticleSerializerから取得する
+# end
+
+# UserテーブルとArticleテーブルの紐付けは終わっているので
+# controllerではcurrent_userの下にarticleを作成すればOK
+# def create
+#   article = Article.new(
+#     title: params[:title],
+#     body: params[:body],
+#     user_id: params[:user_id],
+#   )
+#   article.save!
+#   article = Article.find(Article.last.id)
+#   render json: article
+# end

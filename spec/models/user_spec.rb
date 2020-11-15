@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
   end
 
   context "name が登録済のとき" do
-    let(:user) {build(:user, name: "test")}
+    let(:user) { build(:user, name: "test") }
     it "エラーとなる" do
       create(:user, name: "test")
       expect(user).to be_invalid
@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
   end
 
   context "email が登録済のとき" do
-    let(:user) {build(:user, email: "test@ex.com")}
+    let(:user) { build(:user, email: "test@ex.com") }
     it "エラーとなる" do
       create(:user, email: "test@ex.com")
       expect(user).to be_invalid
@@ -37,7 +37,7 @@ RSpec.describe User, type: :model do
   end
 
   context "password が空白のとき" do
-    let(:user) {build(:user, password: nil)}
+    let(:user) { build(:user, password: nil) }
     it "エラーとなる" do
       expect(user).to be_invalid
       expect(user.errors.details[:password][0][:error]).to eq :blank
