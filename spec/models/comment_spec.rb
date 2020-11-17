@@ -26,7 +26,7 @@ RSpec.describe Comment, type: :model do
     @article = create(:article)
   end
 
-  xcontext "body が入力されているとき" do
+  context "body が入力されているとき" do
     let(:comment) { build(:comment) }
     it "user が作成される" do
       expect(comment).to be_valid

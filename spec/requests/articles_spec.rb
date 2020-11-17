@@ -1,27 +1,5 @@
 require "rails_helper"
 
-# RSpec.describe "Articles", type: :request do
-#   describe "GET /api/v1/articles" do
-#     subject { get api_v1_articles_path }
-#     before { create_list(:user, user_count) }
-#     before { create_list(:article, article_count) }
-
-#     let(:user_count) {3}
-#     let(:article_count) {3}
-
-#     fit "記事一覧が取得できる" do
-#       subject
-#       res = JSON.parse(response.body)
-#       binding.pry
-#       expect(response).to have_http_status(:ok)
-#       # expect(res.values[0].length).to eq 3
-#       # expect(res.values[0][0]["attributes"]).to include "title"
-#       # expect(res.values[0][0]["attributes"]).to include "updated-at"
-#       expect(response).to have_http_status(:ok)
-#     end
-#   end
-# end
-
 RSpec.describe "Api::V1::Articles", type: :request do
   describe "GET /articles" do
     subject { get(api_v1_articles_path) }
@@ -64,9 +42,10 @@ RSpec.describe "Api::V1::Articles", type: :request do
     end
 
     context "指定した id の記事が存在しない場合" do
+      let!(:article) { create(:article) }
       let(:article_id) { 10000 }
 
-      it "記事が見つからない" do
+      fit "記事が見つからない" do
         expect { subject }.to raise_error ActiveRecord::RecordNotFound
       end
     end

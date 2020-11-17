@@ -20,5 +20,8 @@
 #
 require "rails_helper"
 RSpec.describe ArticleLike, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context "テーブルの紐付きが正しいとき" do
+    it "レコードが作成される" do
+    end
+  end
 end

@@ -70,6 +70,7 @@ module Api::V1
 
     def show
       # article = Article.find(params[:id])
+      article = current_user.articles.find(params[:id])
       render json: article
     end
 

@@ -18,14 +18,16 @@ RSpec.describe User, type: :model do
     end
   end
 
-  context "name が登録済のとき" do
-    let(:user) { build(:user, name: "test") }
-    it "エラーとなる" do
-      create(:user, name: "test")
-      expect(user).to be_invalid
-      expect(subject).to eq :taken
-    end
-  end
+  # validation変更したのでコメントアウト
+  # context "name が登録済のとき" do
+  #   let(:user) { build(:user, name: "test") }
+  #   it "エラーとなる" do
+  #     create(:user, name: "test")
+  #     binding.pry
+  #     expect(user).to be_invalid
+  #     expect(subject).to eq :taken
+  #   end
+  # end
 
   context "email が登録済のとき" do
     let(:user) { build(:user, email: "test@ex.com") }
