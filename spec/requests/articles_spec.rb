@@ -4,11 +4,13 @@ RSpec.describe "Api::V1::Articles", type: :request do
   describe "GET /articles" do
     subject { get(api_v1_articles_path) }
 
-    let!(:article1) { create(:article, updated_at: 1.days.ago) }
-    let!(:article2) { create(:article, updated_at: 2.days.ago) }
-    let!(:article3) { create(:article) }
+    let!(:article1) { create(:article, :published, updated_at: 1.days.ago) }
+    let!(:article2) { create(:article, :published, updated_at: 2.days.ago) }
+    let!(:article3) { create(:article, :published) }
 
-    it "記事の一覧が取得できる" do
+    before { create(:article, :draft) }
+
+    it "公開記事の一覧が取得できる" do
       subject
       res = JSON.parse(response.body)
 
@@ -23,8 +25,8 @@ RSpec.describe "Api::V1::Articles", type: :request do
   describe "GET /articles/:id" do
     subject { get(api_v1_article_path(article_id)) }
 
-    context "指定した id の記事が存在する場合" do
-      let!(:article) { create(:article) }
+    context "指定した id の記事が公開状態の場合" do
+      let!(:article) { create(:article, :published) }
       let!(:article_id) { article.id }
 
       it "記事の詳細が取得できる" do
@@ -35,9 +37,19 @@ RSpec.describe "Api::V1::Articles", type: :request do
         expect(res["id"]).to eq article.id
         expect(res["title"]).to eq article.title
         expect(res["body"]).to eq article.body
+        expect(res["status"]).to eq article.status
         expect(res["updated_at"]).to be_present
         expect(res["user"]["id"]).to eq article.user.id
         expect(res["user"].keys).to eq ["id", "name", "email"]
+      end
+    end
+
+    context "指定した id の記事が下書き状態の場合" do
+      let!(:article) { create(:article, :draft) }
+      let!(:article_id) { article.id }
+
+      it "記事が見つからない" do
+        expect { subject }.to raise_error ActiveRecord::RecordNotFound
       end
     end
 
