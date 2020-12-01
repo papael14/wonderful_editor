@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  body       :text
-#  status     :string
+#  status     :string           default("draft")
 #  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -25,9 +25,10 @@ RSpec.describe Article, type: :model do
   end
 
   context "title が入力されているとき" do
-    it "ユーザーが作られる" do
+    it "下書き状態の記事が作成される" do
       article = build(:article)
       expect(article).to be_valid
+      expect(article.status).to eq "draft"
     end
   end
 
@@ -38,10 +39,22 @@ RSpec.describe Article, type: :model do
       expect(article.errors.details[:title][0][:error]).to eq :blank
     end
   end
-  # context "status が入力されているとき" do
-  #   it "ユーザーが作られる" do
-  #   end
-  # end
+
+  context "status が下書きのとき" do
+    let(:article) { build(:article, :draft) }
+    it "下書き記事が作成できる" do
+      expect(article).to be_valid
+      expect(article.status).to eq "draft"
+    end
+  end
+
+  context "status が公開のとき" do
+    let(:article) { build(:article, :published) }
+    it "公開記事が作成できる" do
+      expect(article).to be_valid
+      expect(article.status).to eq "published"
+    end
+  end
 
   # statusの入力条件はなし、後で変えるかも
   # context "status が空白のとき" do
