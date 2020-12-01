@@ -11,7 +11,7 @@ RSpec.describe "Api::V1::Current::Articles", type: :request do
     let!(:article2) { create(:article, :published, user: current_user, updated_at: 2.days.ago) }
     let!(:article3) { create(:article, :published) }
 
-    before { create(:article, :draft, user:current_user) }
+    before { create(:article, :draft, user: current_user) }
 
     it "自分の公開記事一覧が取得できる" do
       subject
